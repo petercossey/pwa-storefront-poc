@@ -1,7 +1,33 @@
+import { useState, useEffect } from 'preact/hooks';
+import { Counter } from '../../components/Counter';
+
 export function Home() {
+	const [message, setMessage] = useState('Loading...');
+
+	useEffect(() => {
+		fetch('/api/hello')
+			.then(res => {
+				if (!res.ok) {
+					throw new Error(`HTTP error! status: ${res.status}`);
+				}
+				return res.json();
+			})
+			.then(data => setMessage(data.message || 'No message received'))
+			.catch(err => {
+				console.error("Error fetching data:", err);
+				setMessage('Failed to load message from middleware.');
+			});
+	}, []);
+
 	return (
 		<div class="home">
 			<h1 className="text-2xl font-bold mb-4 mt-6">An Starter PWA for a BigCommerce Headless Storefront</h1>
+			<p className="text-lg text-blue-600 my-4">Message from Middleware: <strong>{message}</strong></p>
+			<div className="my-8">
+				<h2 className="text-lg font-semibold mb-2">Counter Demo using Zustand</h2>
+				<p className="text-gray-600 mb-4">This counter component demonstrates global state management with Zustand.</p>
+				<Counter />
+			</div>
 			<section className="flex flex-wrap gap-4">
 				<Resource
 					title="BigCommerce Dev Center"
