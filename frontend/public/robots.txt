@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /404
+Disallow: /src/
+Disallow: /node_modules/
+
+# PWA specific rules
+Allow: /manifest.json
+Allow: /service-worker.js
+Allow: /assets/
